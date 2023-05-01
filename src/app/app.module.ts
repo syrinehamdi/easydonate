@@ -11,6 +11,7 @@ import { DonorComponent } from './donor/donor.component';
 import { MaterialsModule } from './materials/materials.module';
 import { AddGiveawayComponent } from './donor/add-giveaway/add-giveaway.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { RecieverComponent } from './reciever/reciever.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     AdminLayoutComponent,
     DonorComponent,
     AddGiveawayComponent,
+    RecieverComponent,
 
   ],
   providers: [],

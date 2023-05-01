@@ -9,6 +9,7 @@ import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { DonorComponent } from 'app/donor/donor.component';
+import { RecieverComponent } from 'app/reciever/reciever.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -61,6 +62,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'maps',           component: MapsComponent },
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',      component: UpgradeComponent },
-    { path: 'giveaways',        component: DonorComponent },
+    { path: 'giveaways', component: DonorComponent },
+    { path: 'reception', component: RecieverComponent}
 
 ];
