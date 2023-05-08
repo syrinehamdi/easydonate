@@ -12,6 +12,7 @@ import { MaterialsModule } from './materials/materials.module';
 import { AddGiveawayComponent } from './donor/add-giveaway/add-giveaway.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { RecieverComponent } from './reciever/reciever.component';
+import { EditGiveawayComponent } from './donor/edit-giveaway/edit-giveaway.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { RecieverComponent } from './reciever/reciever.component';
     DonorComponent,
     AddGiveawayComponent,
     RecieverComponent,
+    EditGiveawayComponent,
 
   ],
   providers: [],

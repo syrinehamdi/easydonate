@@ -4,5 +4,6 @@ export class Giveaway {
     description: string;
     productName: string;
     availability: boolean;
-    pickupLocation: string;
+    pickUpLocation: string;
+    
 }

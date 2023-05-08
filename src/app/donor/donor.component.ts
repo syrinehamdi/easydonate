@@ -5,51 +5,37 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddGiveawayComponent } from './add-giveaway/add-giveaway.component';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import { Giveaway } from '../services/models/giveaway.model';
+import { GiveawayService } from '../services/giveaway.service';
+import { EditGiveawayComponent } from './edit-giveaway/edit-giveaway.component';
 
 
-export interface Giveaway {
-  id: number;
-  title: string;
-  description: string;
-  productName: string;
-  availability: string;
-  pickupLocation: string;
-}
 
 @Component({
   selector: 'app-donor',
   templateUrl: './donor.component.html',
   styleUrls: ['./donor.component.css']
 })
-export class DonorComponent implements AfterViewInit {
+export class DonorComponent {
   displayedColumns: string[] = ['id', 'title', 'description', 'productName', 'availability', 'pickupLocation', 'actions'];
   dataSource: MatTableDataSource<Giveaway>;
+  giveaways: Giveaway[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public dialog: MatDialog) {
-    // Create 100 users
-    // const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
-    const users: Giveaway[] = [
-      { id: 1, title: 'Hydrogen', description: "1.0079", productName: 'H', availability: 'Hydrogen', pickupLocation: "1.0079" },
-      { id: 2, title: 'Helium', description: "4.0026", productName: 'He', availability: 'Hydrogen', pickupLocation: "1.0079" },
-      { id: 3, title: 'Lithium', description: "6.941", productName: 'Li', availability: 'Hydrogen', pickupLocation: "1.0079" },
-      { id: 4, title: 'Beryllium', description: " 9.0122", productName: 'Be', availability: 'Hydrogen', pickupLocation: "1.0079" },
-      { id: 5, title: 'Boron', description: "10.811", productName: 'B', availability: 'Hydrogen', pickupLocation: "1.0079" },
-      { id: 6, title: 'Carbon', description: "12.0107", productName: 'C', availability: 'Hydrogen', pickupLocation: "1.0079" },
-      { id: 7, title: 'Nitrogen', description: "14.0067", productName: 'N', availability: 'Hydrogen', pickupLocation: "1.0079" },
-      { id: 8, title: 'Oxygen', description: "15.9994", productName: 'O', availability: 'Hydrogen', pickupLocation: "1.0079" },
-      { id: 9, title: 'Fluorine', description: "18.9984", productName: 'F', availability: 'Hydrogen', pickupLocation: "1.0079" },
-      { id: 10, title: 'Neon', description: "20.1797", productName: 'Ne', availability: 'Hydrogen', pickupLocation: "1.0079" },
-    ];
+  constructor(public dialog: MatDialog, private giveawayService: GiveawayService) {
+    this.giveawayService.getAllGiveaways().subscribe(
+      data => {
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error => {
+        console.log(error);
+      }
+    );
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -65,7 +51,7 @@ export class DonorComponent implements AfterViewInit {
     this.dialog.open(AddGiveawayComponent);
   }
 
-  onDelete(id:number) {
+  onDelete(id: number) {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -76,6 +62,22 @@ export class DonorComponent implements AfterViewInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
+        this.giveawayService.deleteGiveaway(id).subscribe(
+          data => {
+            console.log(data);
+            this.giveawayService.getAllGiveaways().subscribe(
+              data => {
+                this.giveaways = data;
+              },
+              error => {
+                console.log(error);
+              }
+            );
+          },
+          error => {
+            console.log(error);
+          }
+        );
         Swal.fire(
           'Deleted!',
           'Your giveaway has been deleted.',
@@ -83,6 +85,26 @@ export class DonorComponent implements AfterViewInit {
         )
       }
     })
+  }
+
+  openEditDialog(giveaway: Giveaway): void {
+    const dialogRef = this.dialog.open(EditGiveawayComponent, {
+      width: '500px',
+      data: giveaway
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.giveawayService.updateGiveaway(result.id, result).subscribe(
+          () => {
+            console.log("done !")
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
+    });
   }
 }
 

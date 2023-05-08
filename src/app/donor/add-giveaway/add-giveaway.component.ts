@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { GiveawayService } from '../../services/giveaway.service';
+import { Giveaway } from '../../services/models/giveaway.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-giveaway',
@@ -9,35 +12,37 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AddGiveawayComponent implements OnInit {
 
   giveawayForm: FormGroup;
-  constructor(private formBuilder: FormBuilder) { }
 
-  ngOnInit(): void {
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private giveawayService: GiveawayService
+  ) { }
+
+  ngOnInit() {
     this.giveawayForm = this.formBuilder.group({
       title: ['', Validators.required],
-      description: ['', Validators.required],
       productName: ['', Validators.required],
-      availability: ['', Validators.required],
-      pickupLocation: ['', Validators.required],
+      availability: [true, Validators.required],
+      pickUpLocation: ['', Validators.required],
+      description: ['', Validators.required]
     });
   }
 
-  onSubmit() {
-    const formData = new FormData();
-    formData.append('title', this.giveawayForm.get('title').value);
-    formData.append('description', this.giveawayForm.get('description').value);
-    formData.append('productName', this.giveawayForm.get('productName').value);
-    formData.append('availability', this.giveawayForm.get('availability').value);
-    formData.append('pickupLocation', this.giveawayForm.get('pickupLocation').value);
 
-/*     this.productService.addProduct(formData).subscribe(
-      response => {
-        console.log(response);
-        this.giveawayForm.reset();
+  onSubmit() {
+    const giveaway: Giveaway = this.giveawayForm.value;
+    console.log("form",this.giveawayForm.value);
+    this.giveawayService.createGiveaway(giveaway).subscribe(
+      data => {
+        console.log(data);
+        //this.giveawayForm.reset();
+        this.router.navigate(['giveaways']);
       },
       error => {
         console.log(error);
       }
-    ); */
+    );
   }
 
 }

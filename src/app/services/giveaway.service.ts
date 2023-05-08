@@ -8,7 +8,7 @@ import { Giveaway } from './models/giveaway.model';
 })
 export class GiveawayService {
 
-  private baseUrl = 'http://localhost:8080/api/giveawayItems';
+  private baseUrl = 'http://localhost:8081/giveawayItems';
 
   constructor(private http: HttpClient) { }
 
@@ -25,6 +25,11 @@ export class GiveawayService {
   }
 
   updateGiveaway(id: number, giveaway: Giveaway): Observable<Giveaway> {
+    return this.http.put<Giveaway>(`${this.baseUrl}/modify/${id}`, giveaway);
+  }
+
+  reserveGiveaway(id: number, giveaway: Giveaway): Observable<Giveaway> {
+    giveaway.availability = false;
     return this.http.put<Giveaway>(`${this.baseUrl}/modify/${id}`, giveaway);
   }
 

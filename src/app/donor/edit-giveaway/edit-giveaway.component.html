@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Add new giveawayy</h1>
-<form [formGroup]="giveawayForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="giveawayForm" (ngSubmit)="onEdit()">
     <div mat-dialog-content>
         <mat-form-field appearance="outline">
             <mat-label>Title</mat-label>
@@ -17,16 +17,16 @@
             <mat-label>Pickup location</mat-label>
             <input matInput formControlName="pickUpLocation">
         </mat-form-field>
-<!--         <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline">
             <mat-label>Availability</mat-label>
             <mat-select formControlName="availability">
                 <mat-option value="true">True</mat-option>
                 <mat-option value="false">False</mat-option>
             </mat-select>
-        </mat-form-field> -->
+        </mat-form-field>
     </div>
     <div mat-dialog-actions>
         <button mat-button mat-dialog-close>Close</button>
-        <button mat-button cdkFocusInitial type="submit">Add</button>
+        <button mat-button cdkFocusInitial type="submit">Edit</button>
     </div>
 </form>

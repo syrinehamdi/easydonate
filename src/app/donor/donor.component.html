@@ -57,7 +57,7 @@
                                     <!-- pickupLocation Column -->
                                     <ng-container matColumnDef="pickupLocation">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Pickup location</th>
-                                        <td mat-cell *matCellDef="let row"> {{row.pickupLocation}} </td>
+                                        <td mat-cell *matCellDef="let row"> {{row.pickUpLocation}} </td>
                                     </ng-container>
 
                                     <!-- Actions Column -->
@@ -67,7 +67,7 @@
                                             <div class="d-flex">
                                                 <button mat-icon-button color="warning" aria-label="edit"
                                                     matTooltip="Edit giveaway">
-                                                    <mat-icon style="color:#7c8ca4">edit</mat-icon>
+                                                    <mat-icon style="color:#7c8ca4" (click)="openEditDialog(row)">edit</mat-icon>
                                                 </button>
                                                 <button mat-icon-button color="danger" aria-label="delete"
                                                     matTooltip="Delete giveaway" (click)="onDelete(row.id)">
