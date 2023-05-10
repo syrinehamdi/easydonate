@@ -46,13 +46,27 @@ export class RecieverComponent {
   }
 
   reserve(giveaway: Giveaway) {
-    this.giveawayService.reserveGiveaway(giveaway.id, giveaway).subscribe(
-      data => {
-        console.log(data);
-      },
-      error => {
-        console.log(error);
+    Swal.fire({
+      title: 'Do you want to reserve this giveaway?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Reserve',
+      denyButtonText: `Don't reserve`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.giveawayService.reserveGiveaway(giveaway.id, giveaway).subscribe(
+          data => {
+            console.log(data);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+        Swal.fire('Reserved!', '', 'success')
+      } else if (result.isDenied) {
+        Swal.fire('Giveaway are not reserved', '', 'info')
       }
-    );
+    })
   }
 }

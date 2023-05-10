@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskService } from 'app/shared/Services/TaskService/task.service';
 
 @Component({
   selector: 'app-table-list',
@@ -9,14 +8,10 @@ import { TaskService } from 'app/shared/Services/TaskService/task.service';
 export class TableListComponent implements OnInit {
 
   listTask : any;
-  constructor(private taskService : TaskService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.getAllTasks();
   }
 
-  getAllTasks(){
-    return this.taskService.getAllTasks().subscribe(res => this.listTask = res)
-  }
 
 }

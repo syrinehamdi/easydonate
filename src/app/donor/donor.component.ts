@@ -35,7 +35,6 @@ export class DonorComponent {
         console.log(error);
       }
     );
-    // Assign the data to the data source for the table to render
   }
 
   applyFilter(event: Event) {
@@ -89,7 +88,7 @@ export class DonorComponent {
 
   openEditDialog(giveaway: Giveaway): void {
     const dialogRef = this.dialog.open(EditGiveawayComponent, {
-      width: '500px',
+      //width: '500px',
       data: giveaway
     });
 
@@ -97,7 +96,12 @@ export class DonorComponent {
       if (result) {
         this.giveawayService.updateGiveaway(result.id, result).subscribe(
           () => {
-            console.log("done !")
+            console.log("done !");
+            Swal.fire(
+              'Good job!',
+              'Giveaway updated successfully!',
+              'success'
+            );
           },
           error => {
             console.log(error);

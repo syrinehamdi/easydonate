@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { GiveawayService } from '../../services/giveaway.service';
 import { Giveaway } from '../../services/models/giveaway.model';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-giveaway',
@@ -14,6 +16,7 @@ export class AddGiveawayComponent implements OnInit {
   giveawayForm: FormGroup;
 
   constructor(
+    private dialogRef: MatDialogRef<AddGiveawayComponent>,
     private router: Router,
     private formBuilder: FormBuilder,
     private giveawayService: GiveawayService
@@ -31,18 +34,23 @@ export class AddGiveawayComponent implements OnInit {
 
 
   onSubmit() {
-    const giveaway: Giveaway = this.giveawayForm.value;
-    console.log("form",this.giveawayForm.value);
+    var giveaway: Giveaway = this.giveawayForm.value;
+    //giveaway.user.id = parseInt(this.id);
+    console.log("form", this.giveawayForm.value);
+    
     this.giveawayService.createGiveaway(giveaway).subscribe(
       data => {
         console.log(data);
-        //this.giveawayForm.reset();
-        this.router.navigate(['giveaways']);
+        this.dialogRef.close(giveaway);
+        Swal.fire(
+          'Good job!',
+          'Giveaway added successfully!',
+          'success'
+        );
       },
       error => {
         console.log(error);
       }
     );
   }
-
 }
